@@ -3,37 +3,57 @@ import React, {Component} from 'react';
 class Form extends Component {
     constructor(props) {
         super(props);
-        
-        /*
-            TODO - set initial state for link name and URL 
-
-        */
+        this.state = {
+            name: '',
+            URL: '',
+        };
+        // this.state = {url: ''};
+        // this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = event => {
         /*
             TODO - Logic for changing state based on form changes
         */
+    //    this.setState({name: event.target.name});
+    //    this.setState({url: event.target.url});
+        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ [event.target.url]: event.target.value });
     }
 
-    onFormSubmit = (event) => {
-        // to prevent page reload on form submit
+    handleSubmit = (event) => {
         event.preventDefault();
-        
-        /*
-            TODO - Logic for calling props to handle submission and setting state changes
-        */
-
+        // alert('name: ' + this.state.name + " URL:" + this.state.url);
+        const newRow = {name: this.state.name, URL: this.state.URL}
+        this.props.handleSubmit(newRow)
+        this.setState({name:'', URL:''})
+        console.log(newRow)
+        // this.props.handleSubmit(newRow)
     }
 
     render() {
 
         return(
-            <form>
-                {/* TODO - Logic for returning a form element with labels and inputs for link name and URL */}
+            <form onSubmit={this.handleSubmit}>
+                <div class="form-group">
+                    <label>
+                        Name: {this.state.name}
+                    </label>
+                    <input name="name" value={this.state.name} onChange={this.handleChange} class="form-control"/>
+    
+                    <label>
+                        URL: {this.state.URL}
+                    </label>
+    
+                    <input name="URL" value={this.state.URL} onChange={this.handleChange} class="form-control"/>
+                </div>
+                
+                
+                
+                <input type="submit" value="Submit" class="btn btn-primary"/>
             </form>
         )
-    
     }
 }
 
